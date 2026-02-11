@@ -1,5 +1,5 @@
 ---
-description: "on my way back from japan, near guangzhou!"
+description: "on my way back from japan!"
 image: "./china.jpg"
 date: 2025-11-12
 camera: "Panasonic Lumix TZ70"

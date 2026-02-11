@@ -6,7 +6,7 @@ const skies = defineCollection({
     z.object({
       description: z.string(),
       image: image(),
-      date: z.date().optional(),
+      date: z.date(),
       camera: z.string().optional(),
       location: z.string().optional(),
       gps: z
