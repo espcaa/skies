@@ -22,12 +22,18 @@ const randomSky = skies[randomIndex];
                     height: "70vh",
                 }}
             />
+            <div class="info">
+                <p class="camera">{randomSky.data.camera}</p>
+                <p class="location">{randomSky.data.location}</p>
+                <p class="description">{randomSky.data.description}</p>
+            </div>
         </div>
     </main>
 </Layout>
 
 <script>
     import materialDynamicColors from "material-dynamic-colors";
+    import type { IMaterialDynamicColorsThemeColor } from "material-dynamic-colors/src/cdn/interfaces";
 
     async function applyTheme() {
         const img = document.getElementById("dynamic-img") as HTMLImageElement;
@@ -38,7 +44,7 @@ const randomSky = skies[randomIndex];
 
             let cssVars = "";
             for (const [key, value] of Object.entries(theme.light)) {
-                const darkColor = theme.dark[key];
+                const darkColor = theme.dark[key as keyof typeof theme.dark];
                 cssVars += `--md-${key}: light-dark(${value}, ${darkColor}); `;
             }
 
