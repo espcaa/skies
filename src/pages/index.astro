@@ -6,43 +6,48 @@ import { getCollection } from "astro:content";
 const skies = await getCollection("skies");
 const randomIndex = Math.floor(Math.random() * skies.length);
 const randomSky = skies[randomIndex];
-
-// get the domina
 ---
 
 <Layout>
-    <main class="responsive" style={{ height: "100vh" }}>
-        <div class="mainPictureContainer">
-            {randomSky.data.gps && (
-                <div class="shape soft-burst extra rotate">
-                    <div id="map" style="width: 400px; height: 300px;"></div>
-                    <script is:inline define:vars={{ lng: randomSky.data.gps.long, lat: randomSky.data.gps.lat }}>
-                        var map = new maplibregl.Map({
-                            container: "map",
-                            style: "https://demotiles.maplibre.org/style.json",
-                            center: [lng, lat],
-                            zoom: 9,
-                        });
-                    </script>
-                </div>
-            )}
+    <main id="theme-wrapper">
+        <div class="mainContainer">
             <Image
+                id="dynamic-img"
                 src={randomSky.data.image}
                 loading="eager"
                 alt=""
-                onload="ui('theme', this)"
                 class="responsive round"
                 style={{
                     "object-fit": "cover",
                     height: "70vh",
                 }}
             />
-            <article class="padding round bottom right">
-                <h1 class="primary-text">
-                    {randomSky.data.location}
-                </h1>
-                <p class="secondary-text">{randomSky.data.description}</p>
-            </article>
         </div>
     </main>
 </Layout>
+
+<script>
+    import materialDynamicColors from "material-dynamic-colors";
+
+    async function applyTheme() {
+        const img = document.getElementById("dynamic-img") as HTMLImageElement;
+        const wrapper = document.getElementById("theme-wrapper");
+
+        if (img && wrapper) {
+            const theme = await materialDynamicColors(img.src);
+
+            let cssVars = "";
+            for (const [key, value] of Object.entries(theme.light)) {
+                const darkColor = theme.dark[key];
+                cssVars += `--md-${key}: light-dark(${value}, ${darkColor}); `;
+            }
+
+            wrapper.setAttribute(
+                "style",
+                cssVars + "height: 70vh; object-fit: cover;",
+            );
+        }
+    }
+
+    window.addEventListener("load", applyTheme);
+</script>
