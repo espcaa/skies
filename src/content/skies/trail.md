@@ -1,5 +1,5 @@
 ---
-description: "trees, clouds, hope"
+description: "pretty sky too :)"
 image: "./trail.jpeg"
 date: 2024-07-13
 camera: "Unknown"
