@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.3",
     "astro": "^5.17.1",
     "beercss": "^4.0.7",
     "material-dynamic-colors": "^1.1.4"
