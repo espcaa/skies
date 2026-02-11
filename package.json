@@ -9,6 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "astro": "^5.17.1",
+    "beercss": "^4.0.7",
+    "material-dynamic-colors": "^1.1.4"
   }
 }

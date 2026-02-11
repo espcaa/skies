@@ -1,17 +1,48 @@
 ---
+import { Image } from "astro:assets";
+import "./style.css";
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+const skies = await getCollection("skies");
+const randomIndex = Math.floor(Math.random() * skies.length);
+const randomSky = skies[randomIndex];
 
+// get the domina
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+    <main class="responsive" style={{ height: "100vh" }}>
+        <div class="mainPictureContainer">
+            {randomSky.data.gps && (
+                <div class="shape soft-burst extra rotate">
+                    <div id="map" style="width: 400px; height: 300px;"></div>
+                    <script is:inline define:vars={{ lng: randomSky.data.gps.long, lat: randomSky.data.gps.lat }}>
+                        var map = new maplibregl.Map({
+                            container: "map",
+                            style: "https://demotiles.maplibre.org/style.json",
+                            center: [lng, lat],
+                            zoom: 9,
+                        });
+                    </script>
+                </div>
+            )}
+            <Image
+                src={randomSky.data.image}
+                loading="eager"
+                alt=""
+                onload="ui('theme', this)"
+                class="responsive round"
+                style={{
+                    "object-fit": "cover",
+                    height: "70vh",
+                }}
+            />
+            <article class="padding round bottom right">
+                <h1 class="primary-text">
+                    {randomSky.data.location}
+                </h1>
+                <p class="secondary-text">{randomSky.data.description}</p>
+            </article>
+        </div>
+    </main>
+</Layout>
